@@ -32,4 +32,8 @@ public class TraineeService {
             traineeRepository.save(trainee);
         }
     }
+
+    public Trainee addTrainee(Trainee trainee) {
+        return traineeRepository.save(trainee);
+    }
 }

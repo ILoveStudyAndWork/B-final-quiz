@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
@@ -20,11 +22,14 @@ public class Trainee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotNull
     private String name;
-
+    @NotNull
     private String office;
+    @NotNull
+    @Email
     private String email;
+    @NotNull
     private String zoomId;
     @JsonIgnore
     private boolean grouped;

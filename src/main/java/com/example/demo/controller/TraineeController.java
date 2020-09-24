@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.Trainee;
 import com.example.demo.service.TraineeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 @CrossOrigin
@@ -15,6 +17,13 @@ public class TraineeController {
 
     public TraineeController(TraineeService traineeService) {
         this.traineeService = traineeService;
+    }
+
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Trainee addTrainer(@RequestBody @Valid Trainee trainee){
+        return traineeService.addTrainee(trainee);
     }
 
     @GetMapping

@@ -2,6 +2,7 @@
 - [学员]get all trainees without grouped
 - [讲师]add new trainer
 - [讲师]get all trainers without grouped
+
 - [分组]group randomly
 - [分组]get groups message
 - [学员]add new trainee

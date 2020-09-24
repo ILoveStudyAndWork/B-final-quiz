@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -22,6 +23,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,18 +39,27 @@ class TraineeControllerTest {
 
 
     private Trainee trainee;
+    private Trainee requestTrainee;
     @BeforeEach
     void setUp() {
 
-        // todo
         trainee = Trainee.builder()
                 .id(1L)
                 .email("email")
-                .name("学员")
+                .name("trainee")
                 .grouped(false)
                 .office("office1")
                 .zoomId("zoom 999")
                 .build();
+
+        requestTrainee = Trainee.builder()
+                .email("email")
+                .name("trainee")
+                .grouped(false)
+                .office("office1")
+                .zoomId("zoom 999")
+                .build();
+
     }
 
     @AfterEach
@@ -81,6 +92,76 @@ class TraineeControllerTest {
                     .getResponse();
             assertThat(response.getContentLength()).isEqualTo(0);
             verify(traineeService,times(0)).getAllTraineeWithoutGrouped();
+        }
+    }
+
+    @Nested
+    class addTrainee{
+        @Nested
+        class WhenTraineeValid{
+
+            @Test
+            void should_return_trainee() throws Exception {
+
+                when(traineeService.addTrainee(requestTrainee)).thenReturn(trainee);
+                MockHttpServletResponse response = mockMvc.perform(post("/trainees")
+                        .content(traineeJson.write(requestTrainee).getJson())
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isCreated())
+                        .andReturn()
+                        .getResponse();
+                assertThat(response.getContentAsString()).isEqualTo(traineeJson.write(trainee).getJson());
+
+            }
+        }
+
+        @Nested
+        class WhenTraineeNotValid{
+
+            @Test
+            void should_return_bad_request_given_request_name_is_null() throws Exception {
+                requestTrainee.setName(null);
+                mockMvc.perform(post("/trainees")
+                        .content(traineeJson.write(requestTrainee).getJson())
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isBadRequest());
+            }
+
+            @Test
+            void should_return_bad_request_given_request_office_is_null() throws Exception {
+                requestTrainee.setOffice(null);
+                mockMvc.perform(post("/trainees")
+                        .content(traineeJson.write(requestTrainee).getJson())
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isBadRequest());
+            }
+
+            @Test
+            void should_return_bad_request_given_request_email_is_null() throws Exception {
+                requestTrainee.setEmail(null);
+                mockMvc.perform(post("/trainees")
+                        .content(traineeJson.write(requestTrainee).getJson())
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isBadRequest());
+            }
+
+            @Test
+            void should_return_bad_request_given_request_email_is_illegal() throws Exception {
+                requestTrainee.setEmail("787887");
+                mockMvc.perform(post("/trainees")
+                        .content(traineeJson.write(requestTrainee).getJson())
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isBadRequest());
+            }
+
+            @Test
+            void should_return_bad_request_given_request_zoom_id_is_null() throws Exception {
+                requestTrainee.setZoomId(null);
+                mockMvc.perform(post("/trainees")
+                        .content(traineeJson.write(requestTrainee).getJson())
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isBadRequest());
+            }
         }
     }
 
