@@ -1,5 +1,6 @@
 package com.example.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,5 +24,8 @@ public class Trainer {
 
     @NotNull
     private String name;
+
+    @JsonIgnore
+    private boolean grouped;
 
 }

@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.Trainee;
 import com.example.demo.domain.Trainer;
 import com.example.demo.service.TrainerService;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,14 +12,17 @@ import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.event.annotation.AfterTestClass;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Collections;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(TrainerController.class)
@@ -74,6 +76,34 @@ class TrainerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isBadRequest());
             }
+        }
+    }
+
+    @Nested
+    class getAllTrainerWithoutGrouped{
+
+        @Test
+        void should_return_all_trainer_without_grouped_given_grouped_false() throws Exception {
+            when(trainerService.getAllTrainerWithoutGrouped()).thenReturn(Collections.singletonList(trainer));
+            mockMvc.perform(get("/trainers?grouped=false"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$[0].name",is("trainer")))
+                    .andExpect(jsonPath("$[0].id",is(1)))
+                    .andExpect(jsonPath("$",hasSize(1)));
+
+
+            verify(trainerService,times(1)).getAllTrainerWithoutGrouped();
+
+        }
+
+        @Test
+        void should_return_null_given_grouped_true() throws Exception {
+            when(trainerService.getAllTrainerWithoutGrouped()).thenReturn(Collections.emptyList());
+            MockHttpServletResponse response = mockMvc.perform(get("/trainers?grouped=true"))
+                    .andReturn()
+                    .getResponse();
+            assertThat(response.getContentLength()).isEqualTo(0);
+            verify(trainerService,times(0)).getAllTrainerWithoutGrouped();
         }
     }
 }

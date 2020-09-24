@@ -59,7 +59,7 @@ class TraineeControllerTest {
     @Nested
     class getAllTraineeWithoutGrouped{
         @Test
-        void should_return_all_user_without_grouped_given_grouped_false() throws Exception {
+        void should_return_all_trainee_without_grouped_given_grouped_false() throws Exception {
             when(traineeService.getAllTraineeWithoutGrouped()).thenReturn(Collections.singletonList(trainee));
             mockMvc.perform(get("/trainees?grouped=false"))
                     .andExpect(status().isOk())
