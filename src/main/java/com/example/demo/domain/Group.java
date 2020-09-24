@@ -1,32 +1,28 @@
 package com.example.demo.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "trainer")
-public class Trainer {
+@Table(name = "group")
+public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     private String name;
+    @OneToMany(mappedBy = "group")
+    private List<Trainer> trainers;
 
-    @JsonIgnore
-    private boolean grouped;
-
-    @JsonIgnore
-    @ManyToOne
-    private Group group;
+    @OneToMany( mappedBy = "group")
+    private List<Trainee> trainees;
 }

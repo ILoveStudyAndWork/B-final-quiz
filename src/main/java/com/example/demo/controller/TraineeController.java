@@ -33,4 +33,11 @@ public class TraineeController {
         }
         return Collections.emptyList();
     }
+
+    @DeleteMapping("/{trainee_id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTraineeById(@PathVariable Long trainee_id){
+        traineeService.deleteTraineeById(trainee_id);
+    }
+
 }

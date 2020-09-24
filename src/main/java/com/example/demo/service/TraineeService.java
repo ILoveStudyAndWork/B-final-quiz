@@ -23,7 +23,7 @@ public class TraineeService {
     public void prepareTrainees(){
         for (int i = 1; i < INIT_TRAINEE_LENGTH; i++) {
             Trainee trainee = Trainee.builder()
-                    .email("email")
+                    .email("email@abc.com")
                     .name("学员"+i)
                     .grouped(false)
                     .office("office1")
@@ -35,5 +35,9 @@ public class TraineeService {
 
     public Trainee addTrainee(Trainee trainee) {
         return traineeRepository.save(trainee);
+    }
+
+    public void deleteTraineeById(Long traineeId) {
+        traineeRepository.deleteById(traineeId);
     }
 }

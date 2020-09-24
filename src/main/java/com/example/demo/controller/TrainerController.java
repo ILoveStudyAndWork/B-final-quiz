@@ -32,4 +32,9 @@ public class TrainerController {
         }
         return Collections.emptyList();
     }
+
+    @DeleteMapping("/{trainer_id}")
+    public void deleteTraineeById(@RequestParam Long trainerId){
+        trainerService.deleteTrainerById(trainerId);
+    }
 }

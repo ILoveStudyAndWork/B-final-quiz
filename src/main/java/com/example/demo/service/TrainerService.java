@@ -21,4 +21,8 @@ public class TrainerService {
     public List<Trainer> getAllTrainerWithoutGrouped() {
         return trainerRepository.findAllByGroupedIsFalse();
     }
+
+    public void deleteTrainerById(Long trainerId) {
+        trainerRepository.deleteById(trainerId);
+    }
 }
