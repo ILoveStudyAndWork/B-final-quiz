@@ -1,0 +1,10 @@
+- [学员]prepare trainees when set up
+- [学员]get all trainees without grouped
+- [讲师]add new trainers
+- [讲师]get all trainers without grouped
+- [分组]group randomly
+- [分组]get groups message
+- [学员]add new trainee
+- [学员]delete trainee
+- [讲师]delete trainers
+- [分组]rename group
