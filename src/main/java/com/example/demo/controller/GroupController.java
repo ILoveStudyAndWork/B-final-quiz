@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+//TODO GTB：查找已分组和修改组名的功能缺失
 @CrossOrigin
 @RestController
 @RequestMapping("/groups")

@@ -28,6 +28,7 @@ public class TraineeController {
 
     @GetMapping
     public List<Trainee> getAllTraineeWithoutGrouped(@RequestParam String grouped){
+        //TODO GTB：需要抽取变量
         if ("false".equals(grouped)){
             return traineeService.getAllTraineeWithoutGrouped();
         }

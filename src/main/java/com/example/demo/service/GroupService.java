@@ -27,6 +27,7 @@ public class GroupService {
         this.traineeRepository = traineeRepository;
     }
 
+    //TODO GTB：长方法，需要分模块重构
     public List<Group> groupRandomly() throws TrainerNotEnoughException {
         groupRepository.deleteAll();
         List<Trainer> trainerList = trainerRepository.findAll();

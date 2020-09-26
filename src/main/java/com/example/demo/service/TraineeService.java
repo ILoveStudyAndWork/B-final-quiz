@@ -21,6 +21,7 @@ public class TraineeService {
     }
 
     public void prepareTrainees(){
+        //TODO GTB：命名需要表意
         for (int i = 1; i < INIT_TRAINEE_LENGTH; i++) {
             Trainee trainee = Trainee.builder()
                     .email("email@abc.com")
@@ -38,6 +39,7 @@ public class TraineeService {
     }
 
     public void deleteTraineeById(Long traineeId) {
+        //TODO GTB：{trainerId} 不存在时返回 404 Not Found，未处理
         traineeRepository.deleteById(traineeId);
     }
 }
